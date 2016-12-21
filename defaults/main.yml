@@ -1,0 +1,4 @@
+---
+# defaults file for kubeadm
+
+network_plugin: "flannel"

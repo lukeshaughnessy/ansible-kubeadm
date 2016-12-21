@@ -1,0 +1,15 @@
+- name: Creates configuration directory
+  file: path=/etc/kubernetes state=directory
+
+- name: Generate access token
+  shell: "kubeadm token generate | tee access_token"
+  args:
+    chdir: "/etc/kubernetes/"
+    creates: "access_token"
+
+- name: Retrieve access token
+  command: "cat /etc/kubernetes/access_token"
+  register: res
+
+- set_fact:
+    access_token: "{{ res.stdout }}"

@@ -1,0 +1,2 @@
+- name: "Install weave-net network plugin"
+  command: "kubectl apply -f https://git.io/weave-kube"

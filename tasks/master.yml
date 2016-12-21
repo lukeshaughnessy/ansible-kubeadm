@@ -1,0 +1,8 @@
+- name: Initialize kubernetes master
+  command: "kubeadm init --token {{ access_token }}
+  --api-advertise-addresses {{ master_ip }} --pod-network-cidr=10.244.0.0/16"
+  args:
+    creates: /etc/kubernetes/pki
+
+- name: Install pods network plugin
+  include: 'network/{{ network_plugin }}.yml'
