@@ -3,3 +3,4 @@
 
 network_plugin: "flannel"
 flannel_arch: 'amd64'
+k8s_version: 'v1.5.1'
