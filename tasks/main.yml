@@ -13,8 +13,8 @@
   delegate_to: "{{ groups['k8s-master'][0] }}"
 
 - set_fact:
-    master_ip: "{{ hostvars[groups['k8s-master'][0]]['ansible_host'] }}"
-  when: master_ip is not defined
+    kubeadm_master_ip: "{{ hostvars[groups['k8s-master'][0]]['ansible_host'] }}"
+  when: kubeadm_master_ip is not defined
 
 - name: Master setup
   include: "master.yml"

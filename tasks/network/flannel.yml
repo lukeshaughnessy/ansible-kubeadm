@@ -6,5 +6,5 @@
 
 - name: Install flannel network plugin
   shell: 'curl -sSL "https://github.com/coreos/flannel/blob/master/Documentation/kube-flannel.yml?raw=true"
-  | sed "s/amd64/{{ flannel_arch }}/g" | kubectl create -f -'
+  | sed "s/amd64/{{ kubeadm_flannel_arch }}/g" | kubectl create -f -'
   when: result.rc != 0

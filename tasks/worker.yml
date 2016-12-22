@@ -1,4 +1,4 @@
 - name: Join worker to cluster
-  command: "kubeadm join --token {{ access_token }} {{  master_ip }}"
+  command: "kubeadm join --token {{ access_token }} {{  kubeadm_master_ip }}"
   args:
     creates: /etc/kubernetes/kubelet.conf
