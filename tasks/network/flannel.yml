@@ -1,6 +1,4 @@
-- name: Detecting architecture
-  set_fact:
-    flannel_arch: 'amd64'
-
 - name: Install flannel network plugin
-  shell: 'ARCH={{ flannel_arch }} curl -sSL "https://github.com/coreos/flannel/blob/master/Documentation/kube-flannel.yml?raw=true" | sed "s/amd64/${ARCH}/g" | kubectl create -f -'
+  shell: 'curl -sSL "https://github.com/coreos/flannel/blob/master/Documentation/kube-flannel.yml?raw=true"
+  | sed "s/amd64/{{ item }}/g" | kubectl create -f -'
+  with_items: "{{ flannel_arch }}"
