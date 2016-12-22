@@ -2,7 +2,7 @@
   file: path=/etc/kubernetes state=directory
 
 - name: Generate access token
-  shell: "kubeadm token generate | tee access_token"
+  shell: "kubeadm token generate > access_token"
   args:
     chdir: "/etc/kubernetes/"
     creates: "access_token"
@@ -10,6 +10,7 @@
 - name: Retrieve access token
   command: "cat /etc/kubernetes/access_token"
   register: res
+  changed_when: no
 
 - set_fact:
     access_token: "{{ res.stdout }}"
