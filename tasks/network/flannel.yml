@@ -4,7 +4,12 @@
   ignore_errors: yes
   changed_when: no
 
+- name: Copy flannel descriptor
+  copy:
+    src: "files/k8s_flannel_{{ kubeadm_flannel_arch }}.yml"
+    dest: "./k8s_flannel_{{ kubeadm_flannel_arch }}.yml"
+  when: result.rc != 0
+
 - name: Install flannel network plugin
-  shell: 'curl -sSL "https://github.com/coreos/flannel/blob/master/Documentation/kube-flannel.yml?raw=true"
-  | sed "s/amd64/{{ kubeadm_flannel_arch }}/g" | kubectl create -f -'
+  shell: 'kubectl create -f k8s_flannel_{{ kubeadm_flannel_arch }}.yml'
   when: result.rc != 0
