@@ -2,5 +2,5 @@
 # defaults file for kubeadm
 
 kubeadm_network_plugin: "flannel"
-kubeadm_flannel_arch: 'amd64'
+kubeadm_flannel_archs: ['amd64', 'arm']
 kubeadm_k8s_version: 'v1.5.1'
