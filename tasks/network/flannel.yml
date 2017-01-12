@@ -1,17 +1,24 @@
+- name: Detect nodes architectures
+  set_fact:
+    flannel_archs: "{{ (flannel_archs | default ([]) +
+    [hostvars[item]['ansible_architecture']])  | unique  }}"
+  with_items: "{{ [groups['k8s-master'][0]] + groups['k8s-workers'] }}"
+
 - name: Copy flannel descriptors
   copy:
     src: "files/k8s_flannel_{{ item }}.yml"
     dest: "./k8s_flannel_{{ item }}.yml"
-  with_items: "{{ kubeadm_flannel_archs }}"
+  with_items: "{{ flannel_archs }}"
 
 - name: Check if flannel is already installed
-  shell: "kubectl get daemonset kube-flannel-ds-{{ item }} --namespace=kube-system"
+  shell: "kubectl get daemonset --namespace=kube-system -l arch={{
+  item }} -o json"
   register: result
   ignore_errors: yes
-  with_items: "{{ kubeadm_flannel_archs }}"
+  with_items: "{{ flannel_archs }}"
   changed_when: no
 
 - name: Install flannel network plugin
   shell: 'kubectl create -f k8s_flannel_{{ item.item }}.yml'
   with_items: "{{ result.results }}"
-  when: item.rc != 0
+  when: item.stderr == "No resources found."

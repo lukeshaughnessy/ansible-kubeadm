@@ -7,6 +7,7 @@ metadata:
   labels:
     tier: node
     app: flannel
+    arch: arm
 spec:
   template:
     metadata:
